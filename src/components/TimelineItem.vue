@@ -1,13 +1,18 @@
 <script setup>
 import { ref } from 'vue'
-import { isTimelineItemValid } from '@/validators'
+import { isTimelineItemValid, validateSelectOptions } from '@/validators'
 import BaseSelect from './BaseSelect.vue'
 
 const props = defineProps({
   timelineItem: {
     required: true,
     type: Object,
-    validators: isTimelineItemValid
+    validator: isTimelineItemValid
+  },
+  activitySelectOptions: {
+    required: true,
+    type: Array,
+    validator: validateSelectOptions
   }
 })
 
@@ -18,13 +23,7 @@ const hourLinkClasses = [
     : 'bg-gray-100 text-gray-500'
 ]
 
-const options = [
-  { value: 1, label: 'Coding' },
-  { value: 2, label: 'Reading' },
-  { value: 3, label: 'Training' }
-]
-
-const selectedActivityId = ref(1)
+const selectedActivityId = ref(0)
 </script>
 
 <template>
@@ -36,7 +35,7 @@ const selectedActivityId = ref(1)
     >
     <BaseSelect
       :selected="selectedActivityId"
-      :options="options"
+      :options="activitySelectOptions"
       @select="selectedActivityId = $event"
       placeholder="Rest" />
   </li>
